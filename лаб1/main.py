@@ -2,7 +2,7 @@
 
 import telebot  # pyTelegramBotAPI	4.3.1
 
-bot = telebot.TeleBot('')  # Создаем экземпляр бота @Ivanov_Ivan_1MD19_bot
+bot = telebot.TeleBot('5275596119:AAEuhyVOFr2yD6x6pUtVqqk3sn5FiZA3Is0')  # Создаем экземпляр бота @Ivanov_Ivan_1MD19_bot
 
 # -----------------------------------------------------------------------
 # Функция, обрабатывающая команду /start
