@@ -44,8 +44,9 @@ def get_text_messages(message):
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
         btn1 = types.KeyboardButton("Прислать собаку")
         btn2 = types.KeyboardButton("Прислать анекдот")
+        btn3 = types.KeyboardButton("Что посмотреть")
         back = types.KeyboardButton("Вернуться в главное меню")
-        markup.add(btn1, btn2, back)
+        markup.add(btn1, btn2, btn3, back)
         bot.send_message(chat_id, text="Развлечения", reply_markup=markup)
 
     elif ms_text == "/dog" or ms_text == "Прислать собаку":  # .........................................................
@@ -55,6 +56,24 @@ def get_text_messages(message):
 
     elif ms_text == "Прислать анекдот":  # .............................................................................
         bot.send_message(chat_id, text=get_anekdot())
+
+    elif ms_text == "Что посмотреть":  # .............................................................................
+        markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+        btn1 = types.KeyboardButton("Аниме")
+        btn2 = types.KeyboardButton("Фильмы")
+        btn3 = types.KeyboardButton("Сериалы")
+        back = types.KeyboardButton("Вернуться в главное меню")
+        markup.add(btn1, btn2, btn3, back)
+        bot.send_message(chat_id, text="Что посмотреть", reply_markup=markup)
+
+    elif ms_text == "Аниме":
+        bot.send_message(chat_id, text=get_anime())
+
+    elif ms_text == "Фильмы":
+        bot.send_message(chat_id, text=get_films())
+
+    elif ms_text == "Сериалы":
+        bot.send_message(chat_id, text=get_series())
 
     elif ms_text == "WEB-камера":
         bot.send_message(chat_id, text="еще не готово...")
@@ -84,6 +103,41 @@ def get_anekdot():
     return array_anek[0]
 
 
+def get_anime():
+    array_anim = []
+    anim_text = ''
+    req_anim = requests.get('https://www.kinonews.ru/top100-anime/')
+    soup = bs4.BeautifulSoup(req_anim.text, 'html.parser')
+    result_find = soup.select('.bigtext')
+    for res in result_find:
+        array_anim.append(res.getText().strip())
+    for i in range(51):
+        anim_text = anim_text + '\n' + array_anim[i]
+    return anim_text
+
+def get_films():
+    array_film = []
+    film_text = ''
+    req_film = requests.get('https://www.kinonews.ru/top100/')
+    soup = bs4.BeautifulSoup(req_film.text, 'html.parser')
+    result_find = soup.select('.bigtext')
+    for res in result_find:
+        array_film.append(res.getText().strip())
+    for i in range(51):
+        film_text = film_text + '\n' + array_film[i]
+    return film_text
+
+def get_series():
+    array_series = []
+    series_text = ''
+    req_series = requests.get('https://www.kinonews.ru/serial_top100/')
+    soup = bs4.BeautifulSoup(req_series.text, 'html.parser')
+    result_find = soup.select('.bigtext')
+    for res in result_find:
+        array_series.append(res.getText().strip())
+    for i in range(51):
+        series_text = series_text + '\n' + array_series[i]
+    return series_text
 
 
 # -----------------------------------------------------------------------
