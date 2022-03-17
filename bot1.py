@@ -84,6 +84,8 @@ def get_anekdot():
     return array_anek[0]
 
 
+
+
 # -----------------------------------------------------------------------
 bot.polling(none_stop=True, interval=0)  # Запускаем бота
 
