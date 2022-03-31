@@ -115,6 +115,7 @@ def get_anime():
         anim_text = anim_text + '\n' + array_anim[i]
     return anim_text
 
+
 def get_films():
     array_film = []
     film_text = ''
@@ -126,6 +127,7 @@ def get_films():
     for i in range(51):
         film_text = film_text + '\n' + array_film[i]
     return film_text
+
 
 def get_series():
     array_series = []
