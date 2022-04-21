@@ -26,14 +26,16 @@ class Menu:
         return menu
 
 
-m_main = Menu("Главное меню", buttons=["Развлечения", "Игры", "Управление", "Помощь"])
+m_main = Menu("Главное меню", buttons=["Табы", "Аккорды", "Тюнер", "Помощь"])
 
-m_games = Menu("Игры", buttons=["Камень, ножницы, бумага", "Игра в 21", "Выход"], parent=m_main)
-m_game_21 = Menu("Игра в 21", buttons=["Карту!", "Стоп!", "Выход"], parent=m_games, action="game_21")
-m_game_rsp = Menu("Камень, ножницы, бумага", buttons=["Камень", "Ножницы", "Бумага", "Выход"], parent=m_games,
-                  action="game_rsp")
+m_tabs = Menu("Табы", buttons=["Начинающий", "Восходящий", "Маэстро", "Рандом"], parent=m_main)
+m_tabs_easy = Menu("Начинающий", buttons=[""], parent=m_tabs)  # action=""
+m_tabs_mid = Menu("Восходящий", buttons=[""], parent=m_tabs)
+m_tabs_hard = Menu("Маэстро", buttons=[""], parent=m_tabs)
+m_tabs_random = Menu("Рандом", buttons=[""], parent=m_tabs)
 
-m_DZ = Menu("Управление", buttons=["Задание-1", "Задание-2", "Задание-3", "Задание-4", "Задание-5", "Задание-6", "Выход"],
-            parent=m_main)
+m_accords = Menu("Аккорды", buttons=[""], parent=m_main)
 
-m_fun = Menu("Развлечения", buttons=["Прислать собаку", "Прислать анекдот", "Что посмотреть", "Вернуться в главное меню"], parent=m_main)
+m_tuner = Menu("Тюнер", buttons=[""], parent=m_main)
+
+m_help = Menu("Помощь", buttons=[""], parent=m_main)

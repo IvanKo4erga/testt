@@ -4,6 +4,7 @@ import telebot  # pyTelegramBotAPI	4.3.1
 from telebot import types
 import requests
 import bs4
+from menuBot import Menu
 
 bot = telebot.TeleBot('5275596119:AAEuhyVOFr2yD6x6pUtVqqk3sn5FiZA3Is0')  # Создаем экземпляр бота
 
