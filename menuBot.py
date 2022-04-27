@@ -1,7 +1,6 @@
 from telebot import types
 
 
-# -----------------------------------------------------------------------
 class Menu:
     hash = {}  # тут будем накапливать все созданные экземпляры класса
     cur_menu = None  # тут будет находиться текущий экземпляр класса, текущее меню
@@ -26,16 +25,17 @@ class Menu:
         return menu
 
 
-m_main = Menu("Главное меню", buttons=["Табы", "Аккорды", "Тюнер", "Помощь"])
+if __name__ == '__main__':
+    m_main = Menu("Главное меню", buttons=["Табы", "Аккорды", "Тюнер", "Помощь"])
 
-m_tabs = Menu("Табы", buttons=["Начинающий", "Восходящий", "Маэстро", "Рандом"], parent=m_main)
-m_tabs_easy = Menu("Начинающий", buttons=[""], parent=m_tabs)  # action=""
-m_tabs_mid = Menu("Восходящий", buttons=[""], parent=m_tabs)
-m_tabs_hard = Menu("Маэстро", buttons=[""], parent=m_tabs)
-m_tabs_random = Menu("Рандом", buttons=[""], parent=m_tabs)
+    m_tabs = Menu("Табы", buttons=["Начинающий", "Восходящий", "Маэстро", "Рандом"], parent=m_main)
+    m_tabs_easy = Menu("Начинающий", buttons=[""], parent=m_tabs)  # action=""
+    m_tabs_mid = Menu("Восходящий", buttons=[""], parent=m_tabs)
+    m_tabs_hard = Menu("Маэстро", buttons=[""], parent=m_tabs)
+    m_tabs_random = Menu("Рандом", buttons=[""], parent=m_tabs)
 
-m_accords = Menu("Аккорды", buttons=[""], parent=m_main)
+    m_accords = Menu("Аккорды", buttons=[""], parent=m_main)
 
-m_tuner = Menu("Тюнер", buttons=[""], parent=m_main)
+    m_tuner = Menu("Тюнер", buttons=[""], parent=m_main)
 
-m_help = Menu("Помощь", buttons=[""], parent=m_main)
+    m_help = Menu("Помощь", buttons=[""], parent=m_main)
