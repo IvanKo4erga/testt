@@ -9,7 +9,7 @@ from menuBot import Menu
 bot = telebot.TeleBot('5275596119:AAEuhyVOFr2yD6x6pUtVqqk3sn5FiZA3Is0')  # Создаем экземпляр бота
 
 m_main = Menu("Главное меню", buttons=["Табы", "Аккорды", "Тюнер", "Помощь"])
-m_tabs = Menu("Табы", buttons=["Начинающий", "Восходящий", "Маэстро", "Рандом"], parent=m_main)
+m_tabs = Menu("Табы", buttons=["Начинающий", "Восходящий", "Виртуоз", "Маэстро", "Рандом"], parent=m_main)
 m_tabs_easy = Menu("Начинающий", buttons=[""], parent=m_tabs)  # action=""
 m_tabs_mid = Menu("Восходящий", buttons=[""], parent=m_tabs)
 m_tabs_hard = Menu("Маэстро", buttons=[""], parent=m_tabs)
@@ -26,7 +26,6 @@ m_help = Menu("Помощь", buttons=[""], parent=m_main)
 # Функция, обрабатывающая команду /start
 @bot.message_handler(commands=["start"])
 def start(message):
-
     # chat_id = message.chat.id
 
     # markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
@@ -42,8 +41,11 @@ def start(message):
 # Получение сообщений от юзера
 @bot.message_handler(content_types=['text'])
 def get_text_messages(message):
+    ms_text = message.text
+    if ms_text == 'Начинающий':
+        ms_text = get_tabs()
 
-    bot.send_message(message.chat.id, text=message.text, reply_markup=m_main.getMenu(message.text).markup)
+    bot.send_message(message.chat.id, text=ms_text, reply_markup=m_main.getMenu(message.text).markup)
     # if ms_text == 'Табы':
     #     m_tabs = Menu("Табы", buttons=["Начинающий", "Восходящий", "Маэстро", "Рандом"], parent=m_main)
     #     bot.send_message(chat_id, text="Табы", reply_markup=m_tabs.markup)
@@ -110,53 +112,59 @@ def get_text_messages(message):
     #     bot.send_message(chat_id, text="Я тебя слышу!!! Ваше сообщение: " + ms_text)
 
 
-def get_anekdot():
-    array_anek = []
-    req_anek = requests.get('http://anekdotme.ru/random')
-    soup = bs4.BeautifulSoup(req_anek.text, 'html.parser')
-    result_find = soup.select('.anekdot_text')
+def get_tabs():
+    array_tabs = []
+    tabs_text = ''
+    req_tabs = requests.get('https://guitarmaestro.ru/free-tabs-library/')
+    soup = bs4.BeautifulSoup(req_tabs.text, 'html.parser')
+    result_find = soup.select('.column-2')
     for res in result_find:
-        array_anek.append(res.getText().strip())
-    return array_anek[0]
-
-
-def get_anime():
-    array_anim = []
-    anim_text = ''
-    req_anim = requests.get('https://www.kinonews.ru/top100-anime/')
-    soup = bs4.BeautifulSoup(req_anim.text, 'html.parser')
-    result_find = soup.select('.bigtext')
-    for res in result_find:
-        array_anim.append(res.getText().strip())
+        array_tabs.append(res.getText().strip())
     for i in range(51):
-        anim_text = anim_text + '\n' + array_anim[i]
-    return anim_text
+        tabs_text = tabs_text + '\n' + array_tabs[i]
+    markup = telebot.types.InlineKeyboardMarkup()
+
+    markup.add(telebot.types.InlineKeyboardButton(text='Скачать PDF', url=""))
+    return tabs_text
 
 
-def get_films():
-    array_film = []
-    film_text = ''
-    req_film = requests.get('https://www.kinonews.ru/top100/')
-    soup = bs4.BeautifulSoup(req_film.text, 'html.parser')
-    result_find = soup.select('.bigtext')
-    for res in result_find:
-        array_film.append(res.getText().strip())
-    for i in range(51):
-        film_text = film_text + '\n' + array_film[i]
-    return film_text
-
-
-def get_series():
-    array_series = []
-    series_text = ''
-    req_series = requests.get('https://www.kinonews.ru/serial_top100/')
-    soup = bs4.BeautifulSoup(req_series.text, 'html.parser')
-    result_find = soup.select('.bigtext')
-    for res in result_find:
-        array_series.append(res.getText().strip())
-    for i in range(51):
-        series_text = series_text + '\n' + array_series[i]
-    return series_text
+# def get_anime():
+#     array_anim = []
+#     anim_text = ''
+#     req_anim = requests.get('https://www.kinonews.ru/top100-anime/')
+#     soup = bs4.BeautifulSoup(req_anim.text, 'html.parser')
+#     result_find = soup.select('.bigtext')
+#     for res in result_find:
+#         array_anim.append(res.getText().strip())
+#     for i in range(51):
+#         anim_text = anim_text + '\n' + array_anim[i]
+#     return anim_text
+#
+#
+# def get_films():
+#     array_film = []
+#     film_text = ''
+#     req_film = requests.get('https://www.kinonews.ru/top100/')
+#     soup = bs4.BeautifulSoup(req_film.text, 'html.parser')
+#     result_find = soup.select('.bigtext')
+#     for res in result_find:
+#         array_film.append(res.getText().strip())
+#     for i in range(51):
+#         film_text = film_text + '\n' + array_film[i]
+#     return film_text
+#
+#
+# def get_series():
+#     array_series = []
+#     series_text = ''
+#     req_series = requests.get('https://www.kinonews.ru/serial_top100/')
+#     soup = bs4.BeautifulSoup(req_series.text, 'html.parser')
+#     result_find = soup.select('.bigtext')
+#     for res in result_find:
+#         array_series.append(res.getText().strip())
+#     for i in range(51):
+#         series_text = series_text + '\n' + array_series[i]
+#     return series_text
 
 
 # -----------------------------------------------------------------------
