@@ -127,6 +127,8 @@ def get_tabs():
     markup.add(telebot.types.InlineKeyboardButton(text='Скачать PDF', url=""))
     return tabs_text
 
+def get_tuner():
+    return
 
 # def get_anime():
 #     array_anim = []
