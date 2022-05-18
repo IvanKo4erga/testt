@@ -45,7 +45,11 @@ def get_text_messages(message):
     if ms_text == 'Начинающий':
         ms_text = get_tabs()
 
-    bot.send_message(message.chat.id, text=ms_text, reply_markup=m_main.getMenu(message.text).markup)
+    for i in ms_text:
+        bot.send_message(message.chat.id, text=i, reply_markup=m_main.getMenu(message.text).markup,
+                         parse_mode='Markdown')
+    # bot.send_message(message.chat.id, '[StackOverflow на русском](https://ru.stackoverflow.com/)',
+    #                 parse_mode='Markdown')
     # if ms_text == 'Табы':
     #     m_tabs = Menu("Табы", buttons=["Начинающий", "Восходящий", "Маэстро", "Рандом"], parent=m_main)
     #     bot.send_message(chat_id, text="Табы", reply_markup=m_tabs.markup)
@@ -118,17 +122,40 @@ def get_tabs():
     req_tabs = requests.get('https://guitarmaestro.ru/free-tabs-library/')
     soup = bs4.BeautifulSoup(req_tabs.text, 'html.parser')
     result_find = soup.select('.column-2')
-    for res in result_find:
-        array_tabs.append(res.getText().strip())
+    link_find = soup.select('.column-5')
+    print(link_find)
+
+    link_array = []
+    for i in link_find:
+        print(i)
+        k = i.split('"')
+        print(k)
+        for j in k:
+            print(j)
+            if 'drive' in j:
+                link_array.append(j)
+    print(link_array)
+
+    # for l in link_find:
+    #     if 'drive' in l['href']:
+    #         link_array.append(l['href'])
+    # print(link_array)
+    # for a in link_find:
+    #     a['href']
+    for l in range(len(result_find)):
+        array_tabs.append(f'[{result_find[l].getText().strip()}] ({link_array[l]})')
     for i in range(51):
         tabs_text = tabs_text + '\n' + array_tabs[i]
-    markup = telebot.types.InlineKeyboardMarkup()
+    tabs_text = tabs_text.split('\n')
+    # markup = telebot.types.InlineKeyboardMarkup()
+    #
+    # markup.add(telebot.types.InlineKeyboardButton(text='Скачать PDF', url=""))
+    return array_tabs
 
-    markup.add(telebot.types.InlineKeyboardButton(text='Скачать PDF', url=""))
-    return tabs_text
 
 def get_tuner():
     return
+
 
 # def get_anime():
 #     array_anim = []
