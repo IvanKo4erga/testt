@@ -5,6 +5,7 @@ from telebot import types
 import requests
 import bs4
 from menuBot import Menu
+from random import randint
 
 bot = telebot.TeleBot('5275596119:AAEuhyVOFr2yD6x6pUtVqqk3sn5FiZA3Is0')  # Создаем экземпляр бота
 
@@ -43,11 +44,18 @@ def start(message):
 def get_text_messages(message):
     ms_text = message.text
     if ms_text == 'Начинающий':
-        ms_text = get_tabs()
+        ms_text = get_tabs_begin()
+    if ms_text == 'Восходящий':
+        ms_text = get_tabs_ascend()
+    if ms_text == 'Виртуоз':
+        ms_text = get_tabs_virtuoso()
+    if ms_text == 'Маэстро':
+        ms_text = get_tabs_maestro()
+    if ms_text == 'Рандом':
+        ms_text = get_tabs_random()
 
-    for i in ms_text:
-        bot.send_message(message.chat.id, text=i, reply_markup=m_main.getMenu(message.text).markup,
-                         parse_mode='Markdown')
+    bot.send_message(message.chat.id, text=ms_text, reply_markup=m_main.getMenu(message.text).markup,
+                     parse_mode='Markdown')
     # bot.send_message(message.chat.id, '[StackOverflow на русском](https://ru.stackoverflow.com/)',
     #                 parse_mode='Markdown')
     # if ms_text == 'Табы':
@@ -116,25 +124,27 @@ def get_text_messages(message):
     #     bot.send_message(chat_id, text="Я тебя слышу!!! Ваше сообщение: " + ms_text)
 
 
-def get_tabs():
+def get_tabs_begin():
     array_tabs = []
     tabs_text = ''
     req_tabs = requests.get('https://guitarmaestro.ru/free-tabs-library/')
     soup = bs4.BeautifulSoup(req_tabs.text, 'html.parser')
     result_find = soup.select('.column-2')
-    link_find = soup.select('.column-5')
+    level_find = soup.select('.column-3')
+    link_find = soup.select('td ~ .column-5 > a')
     print(link_find)
+    print(result_find)
 
     link_array = []
-    for i in link_find:
-        print(i)
-        k = i.split('"')
-        print(k)
-        for j in k:
-            print(j)
-            if 'drive' in j:
-                link_array.append(j)
-    print(link_array)
+    # for i in link_find:
+    #     print(i)
+    #     k = i.split('"')
+    #     print(k)
+    #     for j in k:
+    #         print(j)
+    #         if 'drive' in j:
+    #             link_array.append(j)
+    # print(link_array)
 
     # for l in link_find:
     #     if 'drive' in l['href']:
@@ -142,15 +152,86 @@ def get_tabs():
     # print(link_array)
     # for a in link_find:
     #     a['href']
-    for l in range(len(result_find)):
-        array_tabs.append(f'[{result_find[l].getText().strip()}] ({link_array[l]})')
-    for i in range(51):
+    for l in range(1, len(result_find) - 2):
+        if level_find[l].getText().strip() == 'Ученик':
+            array_tabs.append(f'[{result_find[l + 1].getText().strip()}] ({link_find[l]["href"]})')
+    for i in range(len(array_tabs)):
         tabs_text = tabs_text + '\n' + array_tabs[i]
-    tabs_text = tabs_text.split('\n')
+    # tabs_text = tabs_text.split('\n')
     # markup = telebot.types.InlineKeyboardMarkup()
     #
     # markup.add(telebot.types.InlineKeyboardButton(text='Скачать PDF', url=""))
-    return array_tabs
+    return tabs_text
+
+
+def get_tabs_ascend():
+    array_tabs = []
+    tabs_text = ''
+    req_tabs = requests.get('https://guitarmaestro.ru/free-tabs-library/')
+    soup = bs4.BeautifulSoup(req_tabs.text, 'html.parser')
+    result_find = soup.select('.column-2')
+    level_find = soup.select('.column-3')
+    link_find = soup.select('td ~ .column-5 > a')
+    print(link_find)
+    print(result_find)
+    for l in range(1, len(result_find) - 2):
+        if level_find[l].getText().strip() == 'Новичок':
+            array_tabs.append(f'[{result_find[l + 1].getText().strip()}] ({link_find[l]["href"]})')
+    for i in range(len(array_tabs)):
+        tabs_text = tabs_text + '\n' + array_tabs[i]
+    return tabs_text
+
+
+def get_tabs_virtuoso():
+    array_tabs = []
+    tabs_text = ''
+    req_tabs = requests.get('https://guitarmaestro.ru/free-tabs-library/')
+    soup = bs4.BeautifulSoup(req_tabs.text, 'html.parser')
+    result_find = soup.select('.column-2')
+    level_find = soup.select('.column-3')
+    link_find = soup.select('td ~ .column-5 > a')
+    print(link_find)
+    print(result_find)
+    for l in range(1, len(result_find) - 2):
+        if level_find[l].getText().strip() == 'Виртуоз':
+            array_tabs.append(f'[{result_find[l + 1].getText().strip()}] ({link_find[l]["href"]})')
+    for i in range(len(array_tabs)):
+        tabs_text = tabs_text + '\n' + array_tabs[i]
+    return tabs_text
+
+
+def get_tabs_maestro():
+    array_tabs = []
+    tabs_text = ''
+    req_tabs = requests.get('https://guitarmaestro.ru/free-tabs-library/')
+    soup = bs4.BeautifulSoup(req_tabs.text, 'html.parser')
+    result_find = soup.select('.column-2')
+    level_find = soup.select('.column-3')
+    link_find = soup.select('td ~ .column-5 > a')
+    print(link_find)
+    print(result_find)
+    for l in range(1, len(result_find) - 2):
+        if level_find[l].getText().strip() == 'Бывалый':
+            array_tabs.append(f'[{result_find[l + 1].getText().strip()}] ({link_find[l]["href"]})')
+    for i in range(len(array_tabs)):
+        tabs_text = tabs_text + '\n' + array_tabs[i]
+    return tabs_text
+
+
+def get_tabs_random():
+    req_tabs = requests.get('https://guitarmaestro.ru/free-tabs-library/')
+    soup = bs4.BeautifulSoup(req_tabs.text, 'html.parser')
+    result_find = soup.select('.column-2')
+    link_find = soup.select('td ~ .column-5 > a')
+    print(link_find)
+    print(result_find)
+    l = randint(1, 50)
+    # for l in range(1, len(result_find) - 2):
+    #     if level_find[l].getText().strip() == 'Новичок':
+    #         array_tabs.append(f'[{result_find[l + 1].getText().strip()}] ({link_find[l]["href"]})')
+    # for i in range(len(array_tabs)):
+    #     tabs_text = tabs_text + '\n' + array_tabs[i]
+    return f'[{result_find[l + 1].getText().strip()}] ({link_find[l]["href"]})'
 
 
 def get_tuner():
