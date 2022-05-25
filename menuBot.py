@@ -26,7 +26,7 @@ class Menu:
 
 
 if __name__ == '__main__':
-    m_main = Menu("Главное меню", buttons=["Табы", "Аккорды", "Тюнер", "Помощь"])
+    m_main = Menu("Главное меню", buttons=["Табы", "Аккорды", "Помощь"])
 
     m_tabs = Menu("Табы", buttons=["Начинающий", "Восходящий", "Маэстро", "Рандом"], parent=m_main)
     m_tabs_easy = Menu("Начинающий", buttons=[""], parent=m_tabs)  # action=""
