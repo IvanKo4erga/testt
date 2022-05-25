@@ -90,8 +90,6 @@ def get_tabs_random():
     soup = bs4.BeautifulSoup(req_tabs.text, 'html.parser')
     result_find = soup.select('.column-2')
     link_find = soup.select('td ~ .column-5 > a')
-    print(link_find)
-    print(result_find)
     l = randint(1, 50)
     return f'[{result_find[l + 1].getText().strip()}] ({link_find[l]["href"]})'
 
@@ -102,7 +100,6 @@ def get_accords(a):
     req_tabs = requests.get(a)
     soup = bs4.BeautifulSoup(req_tabs.text, 'html.parser')
     result_find = soup.select('td ~ .artist_name > a')
-    print(result_find)
     for l in range(2, len(result_find) - 6, 2):
         array_tabs.append(
             f'{result_find[l].getText().strip()} - {result_find[l + 1].getText().strip()} ({result_find[l + 1]["href"][2:]})')
