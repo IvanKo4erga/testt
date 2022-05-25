@@ -16,7 +16,9 @@ m_tabs_mid = Menu("Восходящий", buttons=[""], parent=m_tabs)
 m_tabs_hard = Menu("Маэстро", buttons=[""], parent=m_tabs)
 m_tabs_random = Menu("Рандом", buttons=[""], parent=m_tabs)
 
-m_accords = Menu("Аккорды", buttons=[""], parent=m_main)
+m_accords = Menu("Аккорды", buttons=["Новинки", "Популярные", "Меню"], parent=m_main)
+m_accords_pop = Menu("Популярные", buttons=[""], parent=m_main)
+m_accords_new = Menu("Новинки", buttons=[""], parent=m_main)
 
 # m_tuner = Menu("Тюнер", buttons=[""], parent=m_main)
 
@@ -57,6 +59,12 @@ def get_text_messages(message):
 
     elif ms_text == 'Рандом':
         ms_text = get_tabs_random()
+
+    elif ms_text == 'Популярные':
+        ms_text = get_accords('https://amdm.ru/akkordi/popular/all/')
+
+    elif ms_text == 'Новинки':
+        ms_text = get_accords('https://amdm.ru/akkordi/')
 
     elif ms_text == "Помощь" or ms_text == "/help":
         bot.send_message(message.chat.id, "Автор: Каргин Даниил")
@@ -156,6 +164,21 @@ def get_tabs_random():
     print(result_find)
     l = randint(1, 50)
     return f'[{result_find[l + 1].getText().strip()}] ({link_find[l]["href"]})'
+
+
+def get_accords(a):
+    array_tabs = []
+    tabs_text = ''
+    req_tabs = requests.get(a)
+    soup = bs4.BeautifulSoup(req_tabs.text, 'html.parser')
+    result_find = soup.select('td ~ .artist_name > a')
+    print(result_find)
+    for l in range(2, len(result_find) - 6, 2):
+        array_tabs.append(f'{result_find[l].getText().strip()} - {result_find[l + 1].getText().strip()} ({result_find[l + 1]["href"][2:]})')
+
+    for i in range(len(array_tabs)):
+        tabs_text = tabs_text + '\n' + array_tabs[i]
+    return tabs_text
 
 
 def get_tuner():
