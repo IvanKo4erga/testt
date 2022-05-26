@@ -1,5 +1,3 @@
-# Телеграм-бот v.002 - бот создаёт меню, присылает собачку, и анекдот
-
 import telebot  # pyTelegramBotAPI	4.3.1
 from telebot import types
 import requests
