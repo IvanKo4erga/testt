@@ -6,8 +6,9 @@ import requests
 import bs4
 from menuBot import Menu
 from random import randint
+import secret
 
-bot = telebot.TeleBot('5275596119:AAEuhyVOFr2yD6x6pUtVqqk3sn5FiZA3Is0')  # Создаем экземпляр бота
+bot = telebot.TeleBot(secret.TELEGRAM_TOKEN)  # Создаем экземпляр бота
 
 m_main = Menu("Меню", buttons=["Табы", "Аккорды", "Помощь"])
 m_tabs = Menu("Табы", buttons=["Начинающий", "Восходящий", "Маэстро", "Рандом", "Меню"], parent=m_main)
